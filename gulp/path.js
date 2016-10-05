@@ -1,10 +1,14 @@
 /**
  * This file contains all path need for gulp build process 
  * @author: Bruce Mbayo
+ * @path: ./gulp/path.js 
  */
 
 // the output folder for built client files
 const DIST_CLIENT_FOLDER = './dist/client/';
+
+// sources folder 
+const SRC_CLIENT_FOLDER = './src/client/';
 
 // paths for ressources
 const paths = {
@@ -14,7 +18,7 @@ const paths = {
   	// load first module definition 
     modules : [
       './src/client/core/core.module.js', './src/client/core/**/*.module.js',
-      './src/client/bundles/bundles.module.js', './src/client/bundles/**/*.module.js',
+      './src/client/bundles/bundles.module.js', './src/client/bundles/**/*.module.js'
     ],
 
     // load core constants
@@ -83,8 +87,14 @@ const paths = {
   	'./src/client/vendors/**/*.{css,ttf,woff,woff2,eot,svg}'
   ],
 
+  // less files folder 
+  less : [ './src/client/less/*.less' ],
+
   // client dist path 
-  dist : DIST_CLIENT_FOLDER
+  dist : DIST_CLIENT_FOLDER,
+
+  // client dev path 
+  dev_folder : SRC_CLIENT_FOLDER
 
 };
 

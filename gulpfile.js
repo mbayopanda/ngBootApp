@@ -21,6 +21,7 @@ const paths   = require('./gulp/path').paths;
 // build constants 
 const UGLIFY  = false;
 const CLIENT_FOLDER = paths.dist;
+const SOURCE_FOLDER = paths.dev_folder;
 
 // minify the angular javascript codes via uglify writes output to app/index.min.js
 gulp.task('app-compile-js', () => {
@@ -38,17 +39,16 @@ gulp.task('app-compile-js', () => {
 
 	return gulp.src(appSourceJs)
 		.pipe(gulpif(UGLIFY, uglify({ mangle: true })))
-		.pipe(concat('source.min.js'))
+		.pipe(concat('app.min.js'))
 		.pipe(iife())
 		.pipe(gulp.dest(CLIENT_FOLDER + 'app/'));
-
 });
 
 // minify the vendor js code and writes output to vendors/source.min.js
 gulp.task('app-compile-vendor', () => {
   return gulp.src(paths.vendors)
     .pipe(gulpif(UGLIFY, uglify({ mangle: true })))
-    .pipe(concat('source.min.js'))
+    .pipe(concat('vendors.min.js'))
     .pipe(gulp.dest(CLIENT_FOLDER + 'vendors/'));
 });
 
@@ -68,14 +68,22 @@ gulp.task('app-mv-static', () => {
 gulp.task('app-minify-styles', () => {
 	return gulp.src(paths.styles)
 		.pipe(cssnano())
-    .pipe(concat('style.min.css'))
-    .pipe(gulp.dest(CLIENT_FOLDER + 'app/'));
+	  .pipe(concat('style.min.css'))
+	  .pipe(gulp.dest(CLIENT_FOLDER + 'assets/'));
 });
 
 // move vendors assets into vendors/assets
 gulp.task('app-mv-vendor-assets', () => {
 	return gulp.src(paths.vendor_assets)
-    .pipe(gulp.dest(CLIENT_FOLDER + 'vendors/assets/'));
+   .pipe(gulp.dest(CLIENT_FOLDER + 'vendors/assets/'));
+});
+
+// compile and move less files 
+gulp.task('app-compile-less', () => {
+	return gulp.src(paths.less)
+		.pipe(less())
+		.pipe(concat('less.css'))
+		.pipe(gulp.dest(SOURCE_FOLDER + 'assets/'));
 });
 
 /* =========================== build section ======================== */
@@ -90,7 +98,12 @@ gulp.task('app-mv-html', () => {
 	gulp.start('app-mv-views', 'app-mv-static');
 });
 
+// build style 
+gulp.task('app-compile-style', () => {
+	gulp.start('app-compile-less', 'app-minify-styles')
+})
+
 // default build task 
 gulp.task('build', ['clean'], () => {
-	gulp.start('app-compile-js', 'app-compile-vendor', 'app-mv-html');
+	gulp.start('app-compile-js', 'app-compile-vendor', 'app-compile-style', 'app-mv-html', 'app-mv-vendor-assets');
 });
