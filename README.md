@@ -1,6 +1,8 @@
 # ngBootApp
 An angular bootstrap application structure
 
+[![Code Climate](https://codeclimate.com/github/mbayopanda/ngBootApp/badges/gpa.svg)](https://codeclimate.com/github/mbayopanda/ngBootApp)
+
 The ngBootApp is a simple app structure generator for angularjs application, it is based on modular structure.
 
 Pre-requist
