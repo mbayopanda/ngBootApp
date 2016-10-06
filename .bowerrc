@@ -1,5 +1,5 @@
 {
-  "directory": "src/vendors",
+  "directory": "src/client/vendors",
   "analytics": false,
   "resolvers": [
     "bower-npm-resolver"
